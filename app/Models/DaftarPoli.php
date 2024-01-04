@@ -24,12 +24,15 @@ class DaftarPoli extends Model
             $model->no_antrian = $model->getResetNoAntrianDaily();
         });
     }
-
-    public function jadwal()
+    public function jadwalPeriksa()
     {
         return $this->belongsTo(JadwalPeriksa::class, 'id_jadwal', 'id');
     }
 
+    public function dokter()
+    {
+        return $this->belongsTo(Dokter::class, 'id_dokter', 'id');
+    }
     public function pasien()
     {
         return $this->belongsTo(Pasien::class, 'id_pasien', 'id');

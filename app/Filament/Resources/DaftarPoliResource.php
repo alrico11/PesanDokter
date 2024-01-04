@@ -5,15 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DaftarPoliResource\Pages;
 use App\Filament\Resources\DaftarPoliResource\RelationManagers;
 use App\Models\DaftarPoli;
-use Filament\Forms;
+use App\Models\Obat;
+use App\Models\Periksa;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DaftarPoliResource extends Resource
 {
@@ -30,20 +32,51 @@ class DaftarPoliResource extends Resource
 
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('pasien.nama'),
+                TextColumn::make('pasien.nama')->label("Nama Pasien"),
                 TextColumn::make('keluhan'),
-                TextColumn::make('no_antrian'),
+                TextColumn::make('no_antrian')->label("Nomer Antrian"),
+                TextColumn::make('jadwalPeriksa.dokter.nama'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label("Edit Pasien"),
+                Tables\Actions\Action::make("Periksa")->label("Periksa")
+                    ->action(function (DaftarPoli $record, array $data) {
+                        $catatan = request('catatan');
+                        $periksa = new Periksa([
+                            'id_daftar_poli' => $record->id,
+                            'tgl_periksa' => now(),
+                            'catatan' => $data['catatan'],
+                            'biaya_periksa' => 155000
+                        ]);
+                        $periksa->save();
+                    })
+                    ->form(function (DaftarPoli $record) {
+                        return [
+                            TextInput::make("id")
+                                ->default(fn(DaftarPoli $record) => $record->id)
+                                ->hidden(),
+                            TextInput::make("pasien.nama")
+                                ->default(fn(DaftarPoli $record) => "{$record->pasien->nama}")
+                                ->readonly(),
+                            DatePicker::make("tgl_periksa")->label("Tanggal Periksa")->default(now()),
+                            Textarea::make("catatan")->label("Catatan"),
+                            Select::make('obat')
+                                ->label('Obat')
+                                ->options(Obat::query()->pluck('nama_obat', 'id'))
+                                ->required()
+                                ->multiple(),
+                        ];
+                    })
+                    ->hidden(function (DaftarPoli $record) {
+                        return Periksa::where('id_daftar_poli', $record->id)->exists();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -51,6 +84,7 @@ class DaftarPoliResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {
@@ -63,7 +97,6 @@ class DaftarPoliResource extends Resource
     {
         return [
             'index' => Pages\ListDaftarPolis::route('/'),
-            'create' => Pages\CreateDaftarPoli::route('/create'),
             'edit' => Pages\EditDaftarPoli::route('/{record}/edit'),
         ];
     }

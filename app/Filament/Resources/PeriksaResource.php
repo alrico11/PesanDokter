@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PeriksaResource\Pages;
 use App\Filament\Resources\PeriksaResource\RelationManagers;
+use App\Models\Pasien;
 use App\Models\Periksa;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PeriksaResource extends Resource
 {
-    protected static ?string $model = Periksa::class;
+    protected static ?string $model = Pasien::class;
 
     protected static ?string $navigationIcon = 'bi-clock-history';
     protected static ?string $navigationLabel = 'Riwayat Pasien';
@@ -33,7 +34,8 @@ class PeriksaResource extends Resource
     {
         return $table
             ->columns([
-
+                TextColumn::make('nama'),
+                TextColumn::make('obat.id'),
             ])
             ->filters([
                 //

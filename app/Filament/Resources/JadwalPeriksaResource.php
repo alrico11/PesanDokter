@@ -31,10 +31,6 @@ class JadwalPeriksaResource extends Resource
         $dokter = Dokter::pluck('nama', 'id')->toArray();
         return $form
             ->schema([
-                Select::make('id_dokter')
-                ->label('Dokter')
-                ->options($dokter)
-                ->required(),
                 Select::make('hari')
                 ->label('Hari')
                 ->options([
@@ -50,13 +46,11 @@ class JadwalPeriksaResource extends Resource
                 TimePicker::make('jam_mulai')
                     ->label('Jam Mulai')
                     ->required(),
-
                 TimePicker::make('jam_selesai')
                     ->label('Jam Selesai')
                     ->required(),
                 ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table

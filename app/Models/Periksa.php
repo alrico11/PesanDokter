@@ -9,11 +9,11 @@ class Periksa extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_periksa', 'id_obat',
+       "id_daftar_poli","tgl_periksa","catatan","biaya_periksa"
     ];
-    public function periksa()
+    public function pasien()
     {
-        return $this->belongsTo(Periksa::class, 'id_periksa');
+        return $this->belongsTo(Pasien::class, 'id_pasien');
     }
     public function obat()
     {
