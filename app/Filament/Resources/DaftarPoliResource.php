@@ -24,6 +24,7 @@ class DaftarPoliResource extends Resource
     protected static ?string $navigationIcon = 'bi-heart-pulse';
 
     protected static ?string $navigationLabel = 'Memeriksa Pasien';
+    protected static ?string $label = 'Checkup Patient';
     protected static ?int $navigationSort = 2;
     public static function form(Form $form): Form
     {
@@ -45,7 +46,10 @@ class DaftarPoliResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label("Edit Pasien"),
+                Tables\Actions\EditAction::make()->label("Edit Pasien")
+                ->hidden(function (DaftarPoli $record) {
+                    return !Periksa::where('id_daftar_poli', $record->id)->exists();
+                }),
                 Tables\Actions\Action::make("Periksa")->label("Periksa")
                     ->action(function (DaftarPoli $record, array $data) {
                         $catatan = request('catatan');
@@ -77,6 +81,7 @@ class DaftarPoliResource extends Resource
                     ->hidden(function (DaftarPoli $record) {
                         return Periksa::where('id_daftar_poli', $record->id)->exists();
                     }),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

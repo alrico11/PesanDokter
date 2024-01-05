@@ -19,6 +19,7 @@ class PoliResource extends Resource
 
     protected static ?string $navigationIcon = 'bi-hospital';
     protected static ?string $navigationLabel = 'Poli';
+    protected static ?string $label = 'Departement';
     public static function form(Form $form): Form
     {
         return $form

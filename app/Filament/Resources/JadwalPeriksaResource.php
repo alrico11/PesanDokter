@@ -6,6 +6,9 @@ use App\Filament\Resources\JadwalPeriksaResource\Pages;
 use App\Filament\Resources\JadwalPeriksaResource\RelationManagers;
 use App\Models\Dokter;
 use App\Models\JadwalPeriksa;
+use App\Models\User;
+use Faker\Core\Number;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -18,13 +21,15 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\Facades\Auth;
+use Filament\Navigation\NavigationItem;
 class JadwalPeriksaResource extends Resource
 {
     protected static ?string $model = JadwalPeriksa::class;
 
     protected static ?string $navigationIcon = 'bi-calendar-check';
     protected static ?string $navigationLabel = 'Jadwal Periksa';
+    protected static ?string $label = 'Schedule';
     protected static ?int $navigationSort = 1;
     public static function form(Form $form): Form
     {
@@ -32,28 +37,36 @@ class JadwalPeriksaResource extends Resource
         return $form
             ->schema([
                 Select::make('hari')
-                ->label('Hari')
-                ->options([
-                    'senin' => 'Senin',
-                    'selasa' => 'Selasa',
-                    'rabu' => 'Rabu',
-                    'kamis' => 'Kamis',
-                    'jumat' => 'Jumat',
-                    'sabtu' => 'Sabtu',
-                    'minggu' => 'Minggu',
-                ])
-                ->required(),
+                    ->label('Hari')
+                    ->options([
+                        'senin' => 'Senin',
+                        'selasa' => 'Selasa',
+                        'rabu' => 'Rabu',
+                        'kamis' => 'Kamis',
+                        'jumat' => 'Jumat',
+                        'sabtu' => 'Sabtu',
+                        'minggu' => 'Minggu',
+                    ])
+                    ->required(),
                 TimePicker::make('jam_mulai')
                     ->label('Jam Mulai')
                     ->required(),
                 TimePicker::make('jam_selesai')
                     ->label('Jam Selesai')
                     ->required(),
-                ]);
+            ]);
     }
+    public static function getIdDokter(): int
+    {
+        $data = auth()->user();
+        return $data->id_dokter;
+    }
+
     public static function table(Table $table): Table
     {
+        if (auth()->check()) {
         return $table
+        ->query(fn () => JadwalPeriksa::where('id_dokter', self::getIdDokter()))
             ->columns([
                 TextColumn::make('dokter.nama'),
                 TextColumn::make('hari'),
@@ -69,7 +82,9 @@ class JadwalPeriksaResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+        }
     }
+
 
     public static function getRelations(): array
     {

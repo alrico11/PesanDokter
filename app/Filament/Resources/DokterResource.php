@@ -17,6 +17,7 @@ class DokterResource extends Resource
 
     protected static ?string $navigationIcon = 'bi-person-vcard';
     protected static ?string $navigationLabel = 'Dokter';
+    protected static ?string $label = 'Doctor';
     public static function form(Form $form): Form
     {
         $polis = Poli::pluck('nama_poli', 'id')->toArray();

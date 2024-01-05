@@ -36,6 +36,9 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'is_admin',
+        'is_dokter',
+        'id_dokter',
     ];
 
     /**
@@ -57,4 +60,7 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function dokter(){
+        return $this->belongsTo(Dokter::class, 'id_dokter', 'id');
+    }
 }

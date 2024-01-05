@@ -21,6 +21,7 @@ class ObatResource extends Resource
 
     protected static ?string $navigationIcon = 'bi-capsule-pill';
     protected static ?string $navigationLabel = 'Obat';
+    protected static ?string $label = 'Medicine';
     public static function form(Form $form): Form
     {
         return $form
