@@ -71,7 +71,7 @@
             </h2>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-center">Register a new account
                     </div>
@@ -83,10 +83,10 @@
                                     name="fullname" id="fullname" required>
                                 <input placeholder="NIK" class="mb-2 form-control focus" type="text" name="nik" id="nik"
                                     required>
-                                <input placeholder="Alamat" class="mb-2 form-control focus" type="text" name="alamat"
-                                    id="alamat" required>
                                 <input placeholder="Nomer Hp" class="mb-2 form-control focus" type="text" name="phone"
                                     id="phone" required>
+                                <textarea placeholder="Alamat" class="mb-2 form-control focus" type="text" name="alamat"
+                                    id="alamat" required></textarea>
                             </div>
                             @if($errors->any())
                             <div class="alert alert-danger">
@@ -97,9 +97,6 @@
                                 </ul>
                             </div>
                             @endif
-                            <a href="loginpasien">
-                                <p>I have already have an account</p>
-                            </a>
                             <button type="submit" class="btn btn-primary">
                                 Register
                             </button>

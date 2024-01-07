@@ -28,7 +28,8 @@ class PasienResource extends Resource
 
     protected static ?string $navigationIcon = 'bi-people-fill';
     protected static ?string $navigationLabel = 'Pasien';
-    protected static bool $create = false; // Menonaktifkan tombol Create
+    protected static ?string $label = 'Patient';
+    protected static bool $create = false;
     protected static ?int $navigationSort = 3;
     public static function form(Form $form): Form
     {

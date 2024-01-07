@@ -68,17 +68,17 @@
             <h2 class="nk-block-title fw-normal">Pesan Dokter</h2>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">Daftar Poli</div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('daftarpolipasien') }}">
-                        @csrf
+                            @csrf
                             <div class="form-group">
-                            <input type="hidden" name="pasienId" value="{{ $idPasien }}">
-                                <input value="{{$pasienRm}}" class="my-1 form-control" type="text" name="nik" id="nik"
+                                <input type="hidden" class="mb-2" name="pasienId" value="{{ $idPasien }}">
+                                <input value="{{$pasienRm}}" class="mb-2 form-control" type="text" name="nik" id="nik"
                                     disabled>
-                                <select class="my-1 form-control" name="jadwal" id="jadwal">
+                                <select class="mb-2 form-control" name="jadwal" id="jadwal">
                                     <option value="" selected disabled>Pilih Jadwal</option>
                                     @foreach($jadwalOptions as $jadwal)
                                     <option value="{{ $jadwal->id }}">
@@ -88,7 +88,7 @@
                                     </option>
                                     @endforeach
                                 </select>
-                                <textarea class="my-1 form-control" type="text" name="keluhan" id="keluhan"
+                                <textarea class="my-2 form-control" type="text" name="keluhan" id="keluhan"
                                     placeholder="Keluhan"></textarea>
                                 <button type="submit" class="btn btn-primary">Daftar</button>
                             </div>

@@ -14,8 +14,10 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -45,7 +47,6 @@ class JadwalPeriksaResource extends Resource
                         'kamis' => 'Kamis',
                         'jumat' => 'Jumat',
                         'sabtu' => 'Sabtu',
-                        'minggu' => 'Minggu',
                     ])
                     ->required(),
                 TimePicker::make('jam_mulai')
@@ -72,6 +73,7 @@ class JadwalPeriksaResource extends Resource
                 TextColumn::make('hari'),
                 TextColumn::make('jam_mulai'),
                 TextColumn::make('jam_selesai'),
+                ToggleColumn::make('is_active')->label('Status Jadwal')
             ])
             ->filters([
                 //

@@ -30,7 +30,9 @@ class DaftarPoliResource extends Resource
     {
         return $form
             ->schema([
-
+                TextInput::make('pasien.nama')->label('Nama Pasien'),
+                TextInput::make('keluhan')->label('Keluhan'),
+                TextInput::make('jadwalPeriksa.dokter.nama')->label('Nama Dokter'),
             ]);
     }
     public static function table(Table $table): Table
