@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2024 at 07:31 AM
+-- Generation Time: Jan 26, 2024 at 05:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,11 @@ CREATE TABLE `daftar_polis` (
 
 INSERT INTO `daftar_polis` (`id`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`, `created_at`, `updated_at`) VALUES
 (34, 11, 1, 'sakit mata', 1, '2024-01-04 06:31:06', '2024-01-04 06:31:06'),
-(35, 10, 3, 'Rabun', 1, '2024-01-04 22:36:43', '2024-01-04 22:36:43');
+(35, 10, 3, 'Rabun', 1, '2024-01-04 22:36:43', '2024-01-04 22:36:43'),
+(36, 12, 4, 'Sakit dada', 1, '2024-01-06 00:50:50', '2024-01-06 00:50:50'),
+(37, 13, 4, 'Sakit nyeri di dada', 1, '2024-01-07 05:08:06', '2024-01-07 05:08:06'),
+(38, 10, 4, 'sakit didada', 2, '2024-01-07 05:08:51', '2024-01-07 05:08:51'),
+(39, 14, 4, 'nyeri dada', 3, '2024-01-07 05:28:47', '2024-01-07 05:28:47');
 
 -- --------------------------------------------------------
 
@@ -81,7 +85,8 @@ CREATE TABLE `dokters` (
 
 INSERT INTO `dokters` (`id`, `nama`, `alamat`, `no_hp`, `id_poli`, `created_at`, `updated_at`) VALUES
 (1, 'Laksono', 'Purwoyoso', 85290328541, 1, '2023-12-25 00:17:14', '2023-12-25 00:36:13'),
-(2, 'Suryanto', 'Kembang arum', 8522222222, 3, '2024-01-04 20:49:50', '2024-01-04 20:49:50');
+(2, 'Suryanto', 'Kembang arum', 8522222222, 3, '2024-01-04 20:49:50', '2024-01-04 20:49:50'),
+(3, 'Andni', 'Purwoyoso', 192380192, 3, '2024-01-06 00:55:00', '2024-01-06 00:55:00');
 
 -- --------------------------------------------------------
 
@@ -111,6 +116,7 @@ CREATE TABLE `jadwal_periksas` (
   `hari` enum('senin','selasa','rabu','kamis','jumat','sabtu') NOT NULL,
   `jam_mulai` time NOT NULL,
   `jam_selesai` time NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -119,10 +125,14 @@ CREATE TABLE `jadwal_periksas` (
 -- Dumping data for table `jadwal_periksas`
 --
 
-INSERT INTO `jadwal_periksas` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `created_at`, `updated_at`) VALUES
-(1, 1, 'senin', '14:04:59', '17:04:59', '2023-12-14 01:04:59', '2023-12-28 01:04:59'),
-(2, 1, 'rabu', '00:00:00', '12:30:00', '2023-12-25 18:13:57', '2023-12-25 18:13:57'),
-(3, 1, 'rabu', '19:15:37', '19:15:36', '2024-01-04 05:15:38', '2024-01-04 05:15:38');
+INSERT INTO `jadwal_periksas` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 1, 'senin', '14:04:59', '17:04:59', 0, '2023-12-14 01:04:59', '2023-12-28 01:04:59'),
+(2, 1, 'rabu', '00:00:00', '12:30:00', 0, '2023-12-25 18:13:57', '2023-12-25 18:13:57'),
+(3, 1, 'rabu', '19:15:37', '19:15:36', 0, '2024-01-04 05:15:38', '2024-01-04 05:15:38'),
+(4, 2, 'senin', '19:00:00', '20:30:00', 1, '2024-01-06 00:29:02', '2024-01-06 01:48:13'),
+(5, 2, 'selasa', '08:00:00', '09:00:00', 0, '2024-01-06 01:18:40', '2024-01-06 01:37:36'),
+(10, 2, 'sabtu', '00:00:00', '01:00:00', 0, '2024-01-06 01:38:30', '2024-01-06 01:47:42'),
+(11, 2, 'rabu', '03:00:00', '04:00:00', 0, '2024-01-06 01:47:42', '2024-01-06 01:48:13');
 
 -- --------------------------------------------------------
 
@@ -198,8 +208,11 @@ CREATE TABLE `pasiens` (
 --
 
 INSERT INTO `pasiens` (`id`, `nama`, `alamat`, `no_ktp`, `no_hp`, `no_rm`, `created_at`, `updated_at`) VALUES
-(10, 'Alrico Rizki Wibowo', '123', '123', '085290328542', '202401-001', '2024-01-04 01:55:21', '2024-01-04 22:32:59'),
-(11, 'Alrico Rizki Wibowo', 'Jl. Purwoyoso RT 07 RW 12', '123123123', '085290328542', '202401-002', '2024-01-04 06:30:48', '2024-01-04 06:30:48');
+(10, 'Alrico Rizki Wibowo', '123', '123', '123', '202401-001', '2024-01-04 01:55:21', '2024-01-07 05:08:32'),
+(11, 'Alrico Rizki Wibowo', 'Jl. Purwoyoso RT 07 RW 12', '123123123', '085290328542', '202401-002', '2024-01-04 06:30:48', '2024-01-04 06:30:48'),
+(12, 'Alrico Rizki Wibowo', 'purwoyoso', '12310923810923', '123123', '202401-003', '2024-01-06 00:50:25', '2024-01-06 00:50:25'),
+(13, 'Alrico Rizki Wibowo', '123', '1231231421', '123', '202401-004', '2024-01-07 05:07:41', '2024-01-07 05:07:41'),
+(14, 'Alrico Rizki Wibowo', '123', '12390182390182093', '123', '202401-005', '2024-01-07 05:28:18', '2024-01-07 05:28:18');
 
 -- --------------------------------------------------------
 
@@ -234,7 +247,8 @@ CREATE TABLE `periksas` (
 --
 
 INSERT INTO `periksas` (`id`, `id_daftar_poli`, `tgl_periksa`, `catatan`, `biaya_periksa`, `created_at`, `updated_at`) VALUES
-(4, 34, '2024-01-04', 'Sakit picek', 155000, '2024-01-04 09:05:18', '2024-01-04 09:05:18');
+(4, 34, '2024-01-04', 'Sakit picek', 155000, '2024-01-04 09:05:18', '2024-01-04 09:05:18'),
+(5, 36, '2024-01-06', 'Perbanyak minum', 155000, '2024-01-06 00:52:50', '2024-01-06 00:52:50');
 
 -- --------------------------------------------------------
 
@@ -304,7 +318,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is_admin`, `is_dokter`, `id_dokter`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'ADMIN', 'admin@admin.com', NULL, '$2y$12$EJSDWReEi7MhuQeisEju1Of.PmP7/BN3ablY9DgAwpB4B.TXgAwGe', 1, 0, NULL, NULL, '2023-12-19 11:34:53', '2023-12-19 11:34:53'),
 (2, 'DOKTER', 'admin1@admin.com', NULL, '$2y$12$EJSDWReEi7MhuQeisEju1Of.PmP7/BN3ablY9DgAwpB4B.TXgAwGe', 0, 1, 1, NULL, '2023-12-19 11:34:53', '2023-12-19 11:34:53'),
-(4, 'Suryanto', 'yanto@admin.com', NULL, '$2y$12$1.LUqd0gBz3/I2wAqUbXkuYEWmy6j/0Wis0qRAZtzQU.k2G1g5g7y', 0, 1, 2, NULL, '2024-01-04 20:51:28', '2024-01-04 20:51:28');
+(4, 'Suryanto', 'yanto@admin.com', NULL, '$2y$12$1.LUqd0gBz3/I2wAqUbXkuYEWmy6j/0Wis0qRAZtzQU.k2G1g5g7y', 0, 1, 2, NULL, '2024-01-04 20:51:28', '2024-01-04 20:51:28'),
+(5, 'Andni', 'andni', NULL, '$2y$12$CrkR3SpNvvp9XS.IELDL2.s5Qls4Wcs5a9e4DssqbApZ.lV/T3Efy', 0, 1, 3, NULL, '2024-01-06 00:55:45', '2024-01-06 00:55:45');
 
 --
 -- Indexes for dumped tables
@@ -408,7 +423,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `daftar_polis`
 --
 ALTER TABLE `daftar_polis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `detail_periksas`
@@ -420,7 +435,7 @@ ALTER TABLE `detail_periksas`
 -- AUTO_INCREMENT for table `dokters`
 --
 ALTER TABLE `dokters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -432,7 +447,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `jadwal_periksas`
 --
 ALTER TABLE `jadwal_periksas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -450,13 +465,13 @@ ALTER TABLE `obats`
 -- AUTO_INCREMENT for table `pasiens`
 --
 ALTER TABLE `pasiens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `periksas`
 --
 ALTER TABLE `periksas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -474,7 +489,7 @@ ALTER TABLE `polis`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
